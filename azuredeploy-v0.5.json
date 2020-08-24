@@ -587,7 +587,7 @@
 						"serviceBusNamespace": "[variables('ehNameSpace')]",
 						"consumerGroupName": "[variables('ehTsi-cg')]",
 						"keyName": "[variables('ehListenRule')]",
-			            "sharedAccessKey": "[listkeys(resourceId(resourceGroup().name, 'Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules', variables('ehNameSpace'), variables('ehHubName'), variables('ehListenRule')), '2017-04-01').primaryKey]"
+			            "sharedAccessKey": "[listKeys(resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('ehNameSpace'),variables('ehHubName'),variables('ehListenRule')),'2017-04-01').primaryKey]"
 					}
 				}
 			]
