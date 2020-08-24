@@ -582,7 +582,7 @@
 					],
 					"kind": "Microsoft.EventHub",
 					"properties": {
-						"eventSourceResourceId": "[resourceId(variables('ehNameSpace'), 'eventhubs', variables('ehHubName'))]",
+		                "eventSourceResourceId": "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('ehNameSpace'), variables('ehHubName'))]",
 						"eventHubName": "[variables('ehHubName')]",
 						"serviceBusNamespace": "[variables('ehNameSpace')]",
 						"consumerGroupName": "[variables('ehTsi-cg')]",
