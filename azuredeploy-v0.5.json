@@ -66,7 +66,6 @@
 		"dpsName": "[concat('DPS-', take(uniqueString(resourceGroup().id),5))]",
 		"tsiEnvironment" : "[concat('TSI-', take(uniqueString(resourceGroup().id),5))]",
 		"tsiEventSource" : "TSI-EventHubs",
-		"tsiDataRetentionTime" : "P30D",
 		"envTag" : "v0.5"
 	},
 	"resources": [
@@ -555,7 +554,6 @@
             },
             "kind": "Gen2",
             "properties": {
-		        "dataRetentionTime": "[variables('tsiDataRetentionTime')]",
                 "storageConfiguration": {
                     "accountName": "[variables('storageAccountName')]",
                     "managementKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2018-02-01').keys[0].value]"
