@@ -64,6 +64,9 @@
 		"functionRepoUrl": "[parameters('functionRepoUrl')]",
 		"functionRepoBranch": "[parameters('functionRepoBranch')]",
 		"dpsName": "[concat('DPS-', take(uniqueString(resourceGroup().id),5))]",
+		"tsiEnvironment" : "[concat('TSI-', take(uniqueString(resourceGroup().id),5))]",
+		"tsiEventSource" : "TSI-EventHubs",
+		"tsiDataRetentionTime" : "P30D",
 		"envTag" : "v0.5"
 	},
 	"resources": [
@@ -537,7 +540,60 @@
 					"eventTimeToLiveInMinutes": 1440
 				}
 			}
-		}
+		},
+		{
+            "type": "Microsoft.TimeSeriesInsights/environments",
+            "apiVersion": "2020-05-15",
+            "name": "[variables('tsiEnvironment')]",
+            "location": "[variables('hubLocation')]",
+			"tags": {
+				"ENV": "[variables('envTag')]"
+			},
+            "sku": {
+                "name": "L1",
+                "capacity": 1
+            },
+            "kind": "Gen2",
+            "properties": {
+		        "dataRetentionTime": "[variables('tsiDataRetentionTime')]",
+                "storageConfiguration": {
+                    "accountName": "[variables('storageAccountName')]",
+                    "managementKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2018-02-01').keys[0].value]"
+                },
+                "timeSeriesIdProperties": [
+                    {
+                        "name": "iothub-connection-device-id",
+                        "type": "string"
+                    }
+                ]
+            },
+			"resources": [
+				{
+					"type": "eventsources",
+					"apiVersion": "2020-05-15",
+					"name": "[variables('tsiEventSource')]",
+		            "location": "[variables('hubLocation')]",
+					"tags": {
+						"ENV": "[variables('envTag')]"
+					},
+					"dependsOn": [
+						"[resourceId('Microsoft.TimeSeriesInsights/environments', variables('tsiEnvironment'))]",
+						"[resourceId('Microsoft.EventHub/Namespaces', variables('ehNameSpace'))]",
+						"[resourceId('Microsoft.EventHub/Namespaces/EventHubs/ConsumerGroups', variables('ehNameSpace'), variables('ehHubName'), variables('ehTsi-cg'))]",
+						"[resourceId('Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules', variables('ehNameSpace'), variables('ehHubName'), variables('ehListenRule'))]"
+					],
+					"kind": "Microsoft.EventHub",
+					"properties": {
+						"eventSourceResourceId": "[resourceId(variables('ehNameSpace'), 'eventhubs', variables('ehHubName'))]",
+						"eventHubName": "[variables('ehHubName')]",
+						"serviceBusNamespace": "[variables('ehNameSpace')]",
+						"consumerGroupName": "[variables('ehTsi-cg')]",
+						"keyName": "[variables('ehListenRule')]",
+			            "sharedAccessKey": "[listkeys(resourceId(resourceGroup().name, 'Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules', variables('ehNameSpace'), variables('ehHubName'), variables('ehListenRule')), '2017-04-01').primaryKey]"
+					}
+				}
+			]
+        }
 	],
 	"outputs": {
 		"_Web_Site_Address": {
