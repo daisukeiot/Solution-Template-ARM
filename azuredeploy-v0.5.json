@@ -499,7 +499,7 @@
 						},
 						{
 							"name": "Azure__AzureMap__MapKey",
-							"value": "[listKeys(resourceId('Microsoft.Maps/accounts', variables('mapName')), providers('Microsoft.Maps', 'accounts').apiVersions[0]).primaryKey]",
+							"value": "[listKeys(resourceId('Microsoft.Maps/accounts', variables('mapName')), providers('Microsoft.Maps', 'accounts').apiVersions[0]).primaryKey]"
 						}
 					]
 				}
