@@ -384,7 +384,8 @@
 				"[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
 				"[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
 				"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-				"[resourceId('Microsoft.SignalRService/SignalR', variables('signalrName'))]"
+				"[resourceId('Microsoft.SignalRService/SignalR', variables('signalrName'))]",
+				"[resourceId('Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules', variables('ehNameSpace'), variables('ehHubName'), variables('ehListenRule'))]"
 			],
 			"tags": {
 				"ENV": "[variables('envTag')]"
