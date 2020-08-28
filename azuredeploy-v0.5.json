@@ -41,6 +41,13 @@
 			"metadata": {
 				"description": "The branch of the GitHub repository to use."
 			}
+		},
+	    "TSIAccessUserID": {
+			"type": "array",
+			"defaultValue": [],
+			"metadata": {
+				"description": "A list of object ids of the users or applications in AAD that should have Reader access to the environment. The service principal objectId can be obtained by calling the Get-AzureRMADUser or the Get-AzureRMADServicePrincipal cmdlets. Creating an access policy for AAD groups is not yet supported."
+			}
 		}
 	},
 	"variables": {
@@ -66,7 +73,8 @@
 		"dpsName": "[concat('DPS-', take(uniqueString(resourceGroup().id),5))]",
 		"tsiEnvironment" : "[concat('TSI-', take(uniqueString(resourceGroup().id),5))]",
 		"tsiEventSource" : "TSI-EventHubs",
-		"envTag" : "v0.5"
+		"envTag" : "v0.5",
+		"mapName": "[concat('MAP-', take(uniqueString(resourceGroup().id),5))]"
 	},
 	"resources": [
 		{
@@ -591,6 +599,35 @@
 					}
 				}
 			]
+        },
+		{
+			"condition": "[not(empty(parameters('TSIAccessUserID')))]",
+			"type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
+			"apiVersion": "2018-08-15-preview",
+			"name": "[concat(variables('tsiEnvironment'), '/', 'readerAccessPolicy', copyIndex())]",
+			"dependsOn": [
+				"[resourceId('Microsoft.TimeSeriesInsights/environments', variables('tsiEnvironment'))]"
+			],
+			"copy": {
+				"name": "accessPolicyReaderCopy",
+				"count": "[if(empty(parameters('TSIAccessUserID')), 1, length(parameters('TSIAccessUserID')))]"
+			},
+			"properties": {
+				"principalObjectId": "[parameters('TSIAccessUserID')[copyIndex()]]",
+				"roles": [
+					"Reader",
+					"Contributor"
+				]
+			}
+    	},
+		{
+            "type": "Microsoft.Maps/accounts",
+            "apiVersion": "2018-05-01",
+            "name": "[variables('mapName')]",
+            "location": "global",
+            "sku": {
+                "name": "S0"
+            }
         }
 	],
 	"outputs": {
