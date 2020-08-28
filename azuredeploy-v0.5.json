@@ -496,6 +496,10 @@
 						{
 							"name": "Azure__IoTHub__ConnectionString",
 							"value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('hubName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('hubName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).value[0].primaryKey)]"
+						},
+						{
+							"name": "Azure__AzureMap__MapKey",
+							"value": "[listKeys(resourceId('Microsoft.Maps/accounts', variables('mapName')), providers('Microsoft.Maps', 'accounts').apiVersions[0]).primaryKey]",
 						}
 					]
 				}
@@ -522,7 +526,8 @@
 			"name": "[concat(variables('hubEventGridSystemTopic'), '/PortalIoTHubEventSubscription')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.EventGrid/systemTopics', variables('hubEventGridSystemTopic'))]",
-				"[resourceId('Microsoft.Web/Sites/sourcecontrols/', variables('webSiteName'),'web')]"
+				"[resourceId('Microsoft.Web/Sites/sourcecontrols/', variables('webSiteName'),'web')]",
+				"[resourceId('Microsoft.Maps/accounts/', variables('mapName'))]"
 			],
 			"properties": {
 				"destination": {
