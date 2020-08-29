@@ -468,7 +468,8 @@
 				],
 				"cors": {
 					"allowedOrigins": [
-						"[concat('https://', toLower(variables('webSiteName')), '.azurewebsites.net')]"
+						"[concat('https://', toLower(variables('webSiteName')), '.azurewebsites.net')]",
+						"https://localhost:44355"
 					]
 				}
 			}
@@ -632,7 +633,7 @@
             "name": "[variables('mapName')]",
             "location": "global",
             "sku": {
-                "name": "S0"
+                "name": "S1"
             }
         }
 	],
