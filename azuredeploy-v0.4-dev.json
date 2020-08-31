@@ -13,6 +13,34 @@
 			"metadata": {
 				"description": "Region"
 			}
+		},
+		"PortalRepoURL": {
+			"defaultValue": "https://github.com/daisukeiot/Solution-Template-WebApp.git",
+			"type": "String",
+			"metadata": {
+				"description": "The URL for the GitHub repository that contains the project to deploy."
+			}
+		},
+		"PortalRepoBranch": {
+			"defaultValue": "v0.4",
+			"type": "String",
+			"metadata": {
+				"description": "The branch of the GitHub repository to use."
+			}
+		},
+		"FunctionRepoURL": {
+			"defaultValue": "https://github.com/daisukeiot/Solution-Template-Functions.git",
+			"type": "String",
+			"metadata": {
+				"description": "The URL for the GitHub repository that contains the project to deploy."
+			}
+		},
+		"FunctionRepoBranch": {
+			"defaultValue": "v0.4",
+			"type": "String",
+			"metadata": {
+				"description": "The branch of the GitHub repository to use."
+			}
 		}
 	},
 	"variables": {
@@ -30,10 +58,10 @@
 		"storageAccountName": "[toLower(concat('stor', take(uniqueString(resourceGroup().id),5)))]",
 		"signalrName": "[concat('SignalR-', take(uniqueString(resourceGroup().id),5))]",
 		"portalSiteName": "[concat('Portal-', take(uniqueString(resourceGroup().id),5))]",
-		"PortalRepoURL": "https://github.com/daisukeiot/Solution-Template-WebApp.git",
-		"PortalRepoBranch": "v0.4",
-		"FunctionRepoURL": "https://github.com/daisukeiot/Solution-Template-Functions.git",
-		"FunctionRepoBranch": "v0.4",
+		"PortalRepoURL": "[parameters('PortalRepoURL')]",
+		"PortalRepoBranch": "[parameters('PortalRepoBranch')]",
+		"FunctionRepoURL": "[parameters('FunctionRepoURL')]",
+		"FunctionRepoBranch": "[parameters('FunctionRepoBranch')]",
 		"DPSName": "[concat('DPS-', take(uniqueString(resourceGroup().id),5))]"
 	},
 	"resources": [
