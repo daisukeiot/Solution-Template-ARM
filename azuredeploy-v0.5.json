@@ -641,7 +641,7 @@
 		{
             "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
             "apiVersion": "2020-05-15",
-			"name": "[concat(variables('tsiEnvironment'), '/TSI-AccessSP')]",
+			"name": "[concat(variables('tsiEnvironment'), '/TSI-SP')]",
 			"properties": {
 				"principalObjectId": "[parameters('servicePrincipalAppId')]",
 				"roles": [
