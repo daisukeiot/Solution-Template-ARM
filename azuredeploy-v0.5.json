@@ -649,24 +649,8 @@
 		},
 		{
             "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
-            "name": "[concat(parameters('tsiEnvironment'), '/TSI-Access'))]",
             "apiVersion": "2017-11-15",
-            "scale": null,
-            "properties": {
-                "principalObjectId": "[guid(resourceGroup().id, deployment().name)]",
-                "roles": [
-                    "Reader",
-                    "Contributor"
-                ]
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.TimeSeriesInsights/environments', parameters('tsiEnvironment'))]"
-            ]
-        },
-		{
-			"apiVersion": "2017-02-28-preview",
-			"name": "[concat(parameters('tsiEnvironment'), '/TSI-AccessSP'))]",
-			"type": "accesspolicies",
+			"name": "[concat(variables('tsiEnvironment'), '/TSI-AccessSP')]",
 			"properties": {
 				"principalObjectId": "[parameters('principalObjectId')]",
 				"roles": [
@@ -675,7 +659,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat('Microsoft.TimeSeriesInsights/environments/', parameters('resourcename'))]"
+				"[concat('Microsoft.TimeSeriesInsights/environments/', variables('tsiEnvironment'))]"
 			]
 		},
 		{
