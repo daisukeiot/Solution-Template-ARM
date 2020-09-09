@@ -42,13 +42,16 @@
 				"description": "The branch of the GitHub repository to use."
 			}
 		},
-	    "TSIAccessUserID": {
+	    "TSIServicePrincipalIds": {
 			"type": "array",
-			"defaultValue": [],
+			"defaultValue": [""],
 			"metadata": {
 				"description": "A list of object ids of the users or applications in AAD that should have Reader access to the environment. The service principal objectId can be obtained by calling the Get-AzureRMADUser or the Get-AzureRMADServicePrincipal cmdlets. Creating an access policy for AAD groups is not yet supported."
 			}
-		}
+		},
+		"principalObjectId": {
+            "type": "string"
+        }
 	},
 	"variables": {
 		"hubLocation": "[parameters('IotHubLocation')]",
@@ -480,6 +483,7 @@
 			"name": "[variables('webSiteName')]",
 			"location": "[variables('hubLocation')]",
 			"dependsOn": [
+				"[resourceId('Microsoft.TimeSeriesInsights/environments', variables('tsiEnvironment'))]",
 				"[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
 			],
 			"tags": {
@@ -504,15 +508,19 @@
 						},
 						{
 							"name": "Azure__TimeSeriesInsights__clientId",
-							"value": ""
+							"value": "[parameters('principalObjectId')]"
 						},
 						{
 							"name": "Azure__TimeSeriesInsights__tenantId",
 							"value": ""
 						},
 						{
-							"name": "Azure__TimeSeriesInsights__tsiUri",
+							"name": "Azure__TimeSeriesInsights__tsiSecret",
 							"value": ""
+						},
+						{
+							"name": "Azure__TimeSeriesInsights__tsiUri",
+							"value": "[reference(resourceId('Microsoft.TimeSeriesInsights/environments', variables('tsiEnvironment'))).dataAccessFQDN]"
 						}
 					]
 				}
@@ -620,7 +628,7 @@
 			]
         },
 		{
-			"condition": "[not(empty(parameters('TSIAccessUserID')))]",
+			"condition": "[not(empty(parameters('TSIServicePrincipalIds')))]",
 			"type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
 			"apiVersion": "2018-08-15-preview",
 			"name": "[concat(variables('tsiEnvironment'), '/', 'readerAccessPolicy', copyIndex())]",
@@ -629,16 +637,47 @@
 			],
 			"copy": {
 				"name": "accessPolicyReaderCopy",
-				"count": "[if(empty(parameters('TSIAccessUserID')), 1, length(parameters('TSIAccessUserID')))]"
+				"count": "[if(empty(parameters('TSIServicePrincipalIds')), 1, length(parameters('TSIServicePrincipalIds')))]"
 			},
 			"properties": {
-				"principalObjectId": "[parameters('TSIAccessUserID')[copyIndex()]]",
+				"principalObjectId": "[parameters('TSIServicePrincipalIds')[copyIndex()]]",
 				"roles": [
 					"Reader",
 					"Contributor"
 				]
 			}
-    	},
+		},
+		{
+            "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
+            "name": "[concat(parameters('tsiEnvironment'), '/TSI-Access'))]",
+            "apiVersion": "2017-11-15",
+            "scale": null,
+            "properties": {
+                "principalObjectId": "[guid(resourceGroup().id, deployment().name)]",
+                "roles": [
+                    "Reader",
+                    "Contributor"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.TimeSeriesInsights/environments', parameters('tsiEnvironment'))]"
+            ]
+        },
+		{
+			"apiVersion": "2017-02-28-preview",
+			"name": "ownerAccessPolicyName",
+			"type": "accesspolicies",
+			"properties": {
+				"principalObjectId": "[parameters('principalObjectId')]",
+				"roles": [
+					"Reader",
+					"Contributor"
+				]
+			},
+			"dependsOn": [
+				"[concat('Microsoft.TimeSeriesInsights/environments/', parameters('resourcename'))]"
+			]
+		},
 		{
             "type": "Microsoft.Maps/accounts",
             "apiVersion": "2018-05-01",
