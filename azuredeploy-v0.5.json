@@ -658,7 +658,7 @@
             "apiVersion": "2017-11-15",
 			"name": "[concat(variables('tsiEnvironment'), '/TSI-AccessSP')]",
 			"properties": {
-				"principalObjectId": "[parameters('principalObjectId')]",
+				"principalObjectId": "[parameters('TSIServicePrincipalIds')]",
 				"roles": [
 					"Reader",
 					"Contributor"
