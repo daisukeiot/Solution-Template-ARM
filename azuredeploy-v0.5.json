@@ -49,7 +49,13 @@
 				"description": "A list of object ids of the users or applications in AAD that should have Reader access to the environment. The service principal objectId can be obtained by calling the Get-AzureRMADUser or the Get-AzureRMADServicePrincipal cmdlets. Creating an access policy for AAD groups is not yet supported."
 			}
 		},
-		"principalObjectId": {
+		"principalAppId": {
+            "type": "string"
+        },
+		"principalTenantId": {
+            "type": "string"
+        },
+		"principalSecret": {
             "type": "string"
         }
 	},
@@ -508,15 +514,15 @@
 						},
 						{
 							"name": "Azure__TimeSeriesInsights__clientId",
-							"value": "[parameters('principalObjectId')]"
+							"value": "[parameters('principalAppId')]"
 						},
 						{
 							"name": "Azure__TimeSeriesInsights__tenantId",
-							"value": ""
+							"value": "[parameters('principalTenantId')]"
 						},
 						{
 							"name": "Azure__TimeSeriesInsights__tsiSecret",
-							"value": ""
+							"value": "[parameters('principalSecret')]"
 						},
 						{
 							"name": "Azure__TimeSeriesInsights__tsiUri",
