@@ -501,6 +501,18 @@
 						{
 							"name": "Azure__AzureMap__MapKey",
 							"value": "[listKeys(resourceId('Microsoft.Maps/accounts', variables('mapName')), providers('Microsoft.Maps', 'accounts').apiVersions[0]).primaryKey]"
+						},
+						{
+							"name": "Azure__TimeSeriesInsights__clientId",
+							"value": ""
+						},
+						{
+							"name": "Azure__TimeSeriesInsights__tenantId",
+							"value": ""
+						},
+						{
+							"name": "Azure__TimeSeriesInsights__tsiUri",
+							"value": ""
 						}
 					]
 				}
