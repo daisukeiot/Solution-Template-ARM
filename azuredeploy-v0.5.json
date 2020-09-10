@@ -42,6 +42,16 @@
 				"description": "The branch of the GitHub repository to use."
 			}
 		},
+		"runThisCommand": {
+			"defaultValue": "wget -q https://raw.githubusercontent.com/daisukeiot/Solution-Template-ARM/master/tsi-setup.sh && chmod +x tsi-setup.sh && ./tsi-setup.sh",
+            "type": "string",
+			"allowedValues": [
+				"wget -q https://raw.githubusercontent.com/daisukeiot/Solution-Template-ARM/master/tsi-setup.sh && chmod +x tsi-setup.sh && ./tsi-setup.sh"
+			],
+			"metadata": {
+				"description": "Please run this command in Cloud Shell to retrieve Service Principal information"
+			}
+        },
 		"servicePrincipalAppId": {
 			"defaultValue": "",
             "type": "string",
@@ -671,17 +681,13 @@
         }
 	],
 	"outputs": {
-		"_Web_Site_Address": {
-			"type": "String",
-			"value": "[concat('https://',  variables('webSiteName'),'.azurewebsites.net/')]"
-		},
 		"postDeploymentCommand": {
 			"type": "String",
 			"value": "[concat('az ad app update --id ', parameters('servicePrincipalAppId'), ' --reply-urls ', concat('\"https://',  variables('webSiteName'),'.azurewebsites.net/\"'))]"
 		},
-		"_IoT_Hub_Connection_String": {
+		"_Web_Site_Address": {
 			"type": "String",
-			"value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('hubName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('hubName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).value[0].primaryKey)]"
+			"value": "[concat('https://',  variables('webSiteName'),'.azurewebsites.net/')]"
 		}
 	}
 }
