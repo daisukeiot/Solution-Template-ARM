@@ -45,9 +45,6 @@
 		"runThisCommand": {
 			"defaultValue": "wget -q https://raw.githubusercontent.com/daisukeiot/Solution-Template-ARM/master/tsi-setup.sh && chmod +x tsi-setup.sh && ./tsi-setup.sh",
             "type": "string",
-			"allowedValues": [
-				"wget -q https://raw.githubusercontent.com/daisukeiot/Solution-Template-ARM/master/tsi-setup.sh && chmod +x tsi-setup.sh && ./tsi-setup.sh"
-			],
 			"metadata": {
 				"description": "Please run this command in Cloud Shell to retrieve Service Principal information"
 			}
@@ -61,7 +58,7 @@
         },
 		"servicePrincipalPassword": {
 			"defaultValue": "",
-            "type": "securestring",
+            "type": "string",
 			"metadata": {
 				"description": "Service Principal Client Secret"
 			}
