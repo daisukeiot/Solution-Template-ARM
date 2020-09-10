@@ -646,6 +646,21 @@
 			]
         },
 		{
+            "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
+            "apiVersion": "2020-05-15",
+			"name": "[concat(variables('tsiEnvironment'), '/TSI-SP')]",
+			"scale": null,
+			"properties": {
+				"principalObjectId": "[parameters('servicePrincipalObjectId')]",
+				"roles": [
+					"Reader"
+				]
+			},
+			"dependsOn": [
+				"[concat('Microsoft.TimeSeriesInsights/environments/', variables('tsiEnvironment'))]"
+			]
+		},
+		{
             "type": "Microsoft.Maps/accounts",
             "apiVersion": "2018-05-01",
             "name": "[variables('mapName')]",
