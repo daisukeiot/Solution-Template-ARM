@@ -1,7 +1,5 @@
 echo off
 
-az login --use-device-code
-
 spName='TSI-SP'
 servicePrincipalAppId=$(az ad app create --display-name $spName --identifier-uris "https://$spName"  --oauth2-allow-implicit-flow true --required-resource-accesses '[{"resourceAppId":"120d688d-1518-4cf7-bd38-182f158850b6","resourceAccess":[{"id":"a3a77dfe-67a4-4373-b02a-dfe8485e2248","type":"Scope"}]}]' --query appId -o tsv)
 servicePrincipalObjectId=$(az ad sp create --id $servicePrincipalAppId --query objectId -o tsv)
