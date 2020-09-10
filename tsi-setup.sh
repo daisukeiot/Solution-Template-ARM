@@ -7,7 +7,7 @@ servicePrincipalAppId=$(az ad app create --display-name $spName --identifier-uri
 servicePrincipalObjectId=$(az ad sp create --id $servicePrincipalAppId --query objectId -o tsv)
 servicePrincipalSecret=$(az ad app credential reset --id $servicePrincipalAppId --credential-description "TSI Token" --query password -o tsv)
 servicePrincipalTenantId=$(az ad sp show --id $servicePrincipalAppId --query appOwnerTenantId -o tsv)
-echo 'Service Principal App Id    : '  $servicePrincipalAppId
-echo 'Service Principal Password  : '  $servicePrincipalSecret
-echo 'Service Principal Tenant Id : '  $servicePrincipalTenantId
+echo 'Service Principal App Id    : ' $servicePrincipalAppId
+echo 'Service Principal Password  : ' $servicePrincipalSecret
+echo 'Service Principal Tenant Id : ' $servicePrincipalTenantId
 echo 'Service Principal Object Id : ' $servicePrincipalObjectId
