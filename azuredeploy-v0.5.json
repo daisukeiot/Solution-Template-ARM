@@ -690,25 +690,13 @@
 			"type": "String",
 			"value": "[concat('https://',  variables('webSiteName'),'.azurewebsites.net/')]"
 		},
-		"_IoT_Hub_Name": {
+		"postDeploymentCommand": {
 			"type": "String",
-			"value": "[variables('hubName')]"
+			"value": "[concat('az ad app update --id ', parameters('servicePrincipalAppId'), ' --reply-urls ', concat('https://',  variables('webSiteName'),'.azurewebsites.net/'))]"
 		},
 		"_IoT_Hub_Connection_String": {
 			"type": "String",
 			"value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('hubName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('hubName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).value[0].primaryKey)]"
-		},
-		"_Function_App_Name": {
-			"type": "String",
-			"value": "[variables('functionAppName')]"
-		},
-		"_Storage_Account_Name": {
-			"type": "String",
-			"value": "[variables('storageAccountName')]"
-		},
-		"_SignalR_Name": {
-			"type": "String",
-			"value": "[variables('signalrName')]"
 		}
 	}
 }
