@@ -547,6 +547,14 @@
 							"value": "[parameters('servicePrincipalPassword')]"
 						},
 						{
+							"name": "Azure__TimeSeriesInsights__temperatureName",
+							"value": "temperature_hts221"
+						},
+						{
+							"name": "Azure__TimeSeriesInsights__humidityName",
+							"value": "humidity"
+						},
+						{
 							"name": "Azure__TimeSeriesInsights__tsiUri",
 							"value": "[reference(resourceId('Microsoft.TimeSeriesInsights/environments', variables('tsiEnvironment'))).dataAccessFQDN]"
 						}
