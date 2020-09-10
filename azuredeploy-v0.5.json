@@ -62,6 +62,13 @@
 			"metadata": {
 				"description": "Service Principal Tenant Id"
 			}
+        },
+		"servicePrincipalObjectId": {
+			"defaultValue": "",
+            "type": "string",
+			"metadata": {
+				"description": "Service Principal Object Id"
+			}
         }
 	},
 	"variables": {
@@ -642,8 +649,9 @@
             "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
             "apiVersion": "2020-05-15",
 			"name": "[concat(variables('tsiEnvironment'), '/TSI-SP')]",
+			"scale": null,
 			"properties": {
-				"principalObjectId": "[parameters('servicePrincipalAppId')]",
+				"principalObjectId": "[parameters('servicePrincipalObjectId')]",
 				"roles": [
 					"Reader"
 				]
