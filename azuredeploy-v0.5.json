@@ -657,7 +657,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat('Microsoft.TimeSeriesInsights/environments/', variables('tsiEnvironment'))]"
+				"[resourceId('Microsoft.TimeSeriesInsights/environments/', variables('tsiEnvironment'))]"
 			]
 		},
 		{
