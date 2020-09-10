@@ -677,7 +677,7 @@
 		},
 		"postDeploymentCommand": {
 			"type": "String",
-			"value": "[concat('az ad app update --id ', parameters('servicePrincipalAppId'), ' --reply-urls ', concat('https://',  variables('webSiteName'),'.azurewebsites.net/'))]"
+			"value": "[concat('az ad app update --id ', parameters('servicePrincipalAppId'), ' --reply-urls ', concat('\"https://',  variables('webSiteName'),'.azurewebsites.net/\"'))]"
 		},
 		"_IoT_Hub_Connection_String": {
 			"type": "String",
