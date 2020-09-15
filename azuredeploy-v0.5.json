@@ -54,7 +54,7 @@
 		"hubLocation": "[parameters('IotHubLocation')]",
 		"hubName": "[concat('Hub-', take(uniqueString(resourceGroup().id),5))]",
 		"hubEventHubs-cg": "[concat('Hub-', take(uniqueString(resourceGroup().id),5), '/events/eventhubs-cg')]",
-		"hubEventGridSystemTopic": "EventGridIoTHubTopic",
+		"hubEventGridSystemTopic": "IoTHubSystemTopic",
 		"ehNameSpace": "[concat('EventHubs-', take(uniqueString(resourceGroup().id),5))]",
 		"ehHubName": "devicetelemetryhub",
 		"ehFunctions-cg": "telemetry-functions-cg",
@@ -549,7 +549,7 @@
 		{
 			"type": "Microsoft.EventGrid/systemTopics/eventSubscriptions",
 			"apiVersion": "2020-04-01-preview",
-			"name": "[concat(variables('hubEventGridSystemTopic'), '/PortalIoTHubEventSubscription')]",
+			"name": "[concat(variables('hubEventGridSystemTopic'), '/DeviceManagementEventSubscription')]",
 			"dependsOn": [
 				"[resourceId('Microsoft.EventGrid/systemTopics', variables('hubEventGridSystemTopic'))]",
 				"[resourceId('Microsoft.Web/Sites/sourcecontrols/', variables('webSiteName'),'web')]",
