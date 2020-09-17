@@ -1,4 +1,4 @@
-spName='Project15-OpenPlatform-TSI-SP'
+spName='P15-OpenPlatform-TSI-SP'
 
 servicePrincipalAppId=$(az ad app list --show-mine --query "[?displayName=='$spName'].appId" -o tsv)
 
