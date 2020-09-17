@@ -12,11 +12,12 @@ if [ -z "$servicePrincipalObjectId" ]; then
     servicePrincipalObjectId=$(az ad sp create --id $servicePrincipalAppId --query objectId -o tsv)
 fi
 
+echo 'Service Principal App Id    :' $servicePrincipalAppId
+echo 'Service Principal Password  :' $servicePrincipalSecret
+
 servicePrincipalSecret=$(az ad app credential reset --id $servicePrincipalAppId --credential-description "OpenPlatform TSI Token" --query password -o tsv)
 servicePrincipalTenantId=$(az ad sp show --id $servicePrincipalAppId --query appOwnerTenantId -o tsv)
 
-echo 'Service Principal App Id    :' $servicePrincipalAppId
-echo 'Service Principal Password  :' $servicePrincipalSecret
 echo 'Service Principal Tenant Id :' $servicePrincipalTenantId
 echo 'Service Principal Object Id :' $servicePrincipalObjectId
 
