@@ -19,3 +19,5 @@ echo 'Service Principal App Id    :' $servicePrincipalAppId
 echo 'Service Principal Password  :' $servicePrincipalSecret
 echo 'Service Principal Tenant Id :' $servicePrincipalTenantId
 echo 'Service Principal Object Id :' $servicePrincipalObjectId
+
+rm ./tsi-setup.sh
